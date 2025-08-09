@@ -1,18 +1,40 @@
-# Repository Contents
+# Physics-Informed Neural Networks (PINNs) for Newtonian Systems
 
-A curated collection of Jupyter notebooks and supporting code for my public posts (Medium, LinkedIn, YouTube, GitHub Pages). Each folder is a self-contained “post” with code, figures, and references. Reproducibility and portability are first-class goals.
+This repository demonstrates how to implement **Physics-Informed Neural Networks (PINNs)** to solve problems governed by **Newtonian mechanics**, without relying on large datasets.  
+Instead, the neural network learns by minimizing both **physics residuals** (from the governing equations) and **initial/boundary condition losses**. The example problem here is the **nonlinear pendulum**:
 
-- [algoritmos_que_educam](https://github.com/ozsp12/blog_posts/tree/main/algoritmos_que_educam) — Small CS/algorithm notebooks and teaching snippets.
-- [futurama_banach_tarski](https://github.com/ozsp12/blog_posts/tree/main/futurama_banach_tarski) — Pop-science crossover notes around Banach–Tarski and cultural references.
-- [generative_adversarial_networks](https://github.com/ozsp12/blog_posts/tree/main/generative_adversarial_networks) — GAN toy models, visualizations, and minimal notebooks.
-- [post_meta_conhecimento_dirac_notation](https://github.com/ozsp12/blog_posts/tree/main/post_meta_conhecimento_dirac_notation) — Notes on Dirac notation and meta-knowledge for pedagogy posts.
-- [riemann_sum](https://github.com/ozsp12/blog_posts/tree/main/riemann_sum) — Riemann sums, integral intuition, and exportable figures/animations.
-- [step_barrier_quantum_tunneling](https://github.com/ozsp12/blog_posts/tree/main/step_barrier_quantum_tunneling) — 1D quantum step/barrier simulations with plots.
-- [time_series_graph_example](https://github.com/ozsp12/blog_posts/tree/main/time_series_graph_example) — BI/analytics time-series examples and plotting patterns.
-- [visual_proofs](https://github.com/ozsp12/blog_posts/tree/main/visual_proofs) — Visual proofs and geometric constructions for didactic posts.
+$$
+\ddot{\theta}(t) + \frac{g}{L} \sin(\theta(t) = 0,
+$$
+with initial conditions:
+$$
+\theta(0) = \theta_0, \quad \dot{\theta}(0) = \omega_0.
+$$
 
-**Repo root:** [blog_posts](https://github.com/ozsp12/blog_posts/tree/main)
+---
 
+## Features
+
+- Minimal **functional** code structure (no heavy frameworks, just PyTorch).
+- **Reusable functions** for:
+  - Network construction
+  - Automatic differentiation for time derivatives
+  - Physics and initial condition loss calculation
+  - Model training (Adam + optional LBFGS)
+  - Sampling to Pandas DataFrames
+  - Plotting results
+- Fully documented example: **Nonlinear Pendulum**.
+- Extensible to other **Newtonian ODEs/PDEs** by swapping the `residual_fn` and ICs.
+
+---
+
+# References
+
+[1] M. Raissi, P. Perdikaris, G.E. Karniadakis,
+Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear partial differential equations,
+Journal of Computational Physics, Volume 378, 2019, Pages 686-707, ISSN 0021-9991, https://doi.org/10.1016/j.jcp.2018.10.045.  
+[2] H. Goldstein, C. Poole, J. Safko, Classical Mechanics, 3rd ed., Addison-Wesley (2002).  
+[3] J.B. Marion, S.T. Thornton, Classical Dynamics of Particles and Systems, 5th ed., Brooks/Cole (2003), Ch. 7.
 
 # Social Media
 🌐 Webpage: https://ozsp12.github.io/  
