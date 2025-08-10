@@ -1,7 +1,7 @@
 # Physics-Informed Neural Networks (PINNs) for Newtonian Systems
 
 This repository demonstrates how to implement **Physics-Informed Neural Networks (PINNs)** to solve problems governed by **Newtonian mechanics**, without relying on large datasets.  
-Instead, the neural network learns by minimizing both **physics residuals** (from the governing equations) and **initial/boundary condition losses**. The example problem here is the **nonlinear pendulum**:
+Instead, the neural network learns by minimizing both **physics residuals** (from the governing equations) and **initial/boundary condition losses**. The example problem here is the **nonlinear pendulum**:  
 
 $$
 \ddot{\theta}(t) + \frac{g}{L} \sin(\theta(t) = 0,
@@ -11,7 +11,6 @@ $$
 \theta(0) = \theta_0, \quad \dot{\theta}(0) = \omega_0.
 $$
 
----
 
 ## Features
 
@@ -26,7 +25,56 @@ $$
 - Fully documented example: **Nonlinear Pendulum**.
 - Extensible to other **Newtonian ODEs/PDEs** by swapping the `residual_fn` and ICs.
 
----
+# Loss Function
+
+The training objective combines two terms.  
+1. **Physics loss** enforces the governing differential equation at a set of collocation points $t_f$  
+2. **Initial condition loss** enforces the known initial conditions at $t = 0$
+
+
+## Physics Loss
+
+For the nonlinear pendulum, the governing equation is 
+
+$$
+\ddot{\theta}(t) + \frac{g}{L} \sin\big(\theta(t)\big) = 0
+$$
+
+Let $R(t)$ be the residual of the ODE  
+
+$$
+R(t) = \ddot{\theta}(t) + \frac{g}{L} \sin\big(\theta(t)\big)
+$$  
+
+The physics loss is the mean-squared error of the residual evaluated at $N_f$ collocation points.
+
+$$
+L_{\text{phys}} = \frac{1}{N_f} \sum_{i=1}^{N_f} R\left(t_f^{(i)}\right)^2
+$$
+
+## Initial Condition Loss
+
+The known initial conditions are  
+
+$$
+\theta(0) = \theta_0, \quad \dot{\theta}(0) = \omega_0
+$$
+
+The initial condition loss is the mean squared error between the PINN’s prediction at $t = 0$ and the desired initial values.  
+
+$$
+L_{\text{IC}} = \left[ \theta(0) - \theta_0 \right]^2 + \left[ \dot{\theta}(0) - \omega_0 \right]^2
+$$
+
+## Total Loss
+
+The total loss minimized during training is the sum of the two contributions.
+
+$$
+L_{\text{total}} = L_{\text{phys}} + L_{\text{IC}} 
+$$  
+
+This formulation requires no labeled data from experiments or simulations; the physics term ensures that the model respects the ODE, and the initial condition term anchors the solution to the correct trajectory.
 
 # References
 
